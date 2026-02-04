@@ -3,8 +3,13 @@
 
 int main() {
     char buffer[10];
-    // This line deliberately causes a buffer overflow
-    strcpy(buffer, "This string is way too long for the buffer");
+    const char *source = "This string is way too long for the buffer";
+    
+    // FIXED: Replaced strcpy() with strncpy() to prevent buffer overflow
+    strncpy(buffer, source, sizeof(buffer) - 1);
+    buffer[sizeof(buffer) - 1] = '\0';  // Ensure null termination
+    
     printf("%s\n", buffer);
+    printf("Note: String was truncated to fit buffer size\n");
     return 0;
 }
